@@ -1,7 +1,4 @@
 fastapi
 uvicorn[standard]
 pydantic
-numpy
-scikit-learn
 python-multipart
- 
