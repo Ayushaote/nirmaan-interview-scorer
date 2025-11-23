@@ -2,19 +2,9 @@ from typing import Dict, Any, List
 
 import json
 import numpy as np
-from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity
 
 
-_model = None
 _rubric_cache: Dict[str, Any] = {}
-
-
-def get_model():
-    global _model
-    if _model is None:
-        _model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
-    return _model
 
 
 def load_rubric(path: str = "rubric_config.json") -> Dict[str, Any]:
@@ -46,16 +36,28 @@ def keyword_score(text: str, keywords: List[str]) -> float:
 
 def semantic_score(text: str, description: str) -> float:
     """
-    Semantic similarity between transcript and criterion description. [0, 1]
+    Lightweight semantic-ish score using word overlap (no heavy model).
+    Returns value in [0, 1].
     """
     if not description.strip():
         return 0.5  # neutral baseline
-    model = get_model()
-    embeddings = model.encode([text, description])
-    sim = cosine_similarity([embeddings[0]], [embeddings[1]])[0][0]
-    # Map from [-1,1] -> [0,1]
-    sim = (sim + 1) / 2
-    return float(sim)
+
+    # Tokenize into lowercase words
+    text_tokens = set(text.lower().split())
+    desc_tokens = set(description.lower().split())
+
+    if not text_tokens or not desc_tokens:
+        return 0.5
+
+    intersection = text_tokens.intersection(desc_tokens)
+    union = text_tokens.union(desc_tokens)
+
+    if not union:
+        return 0.5
+
+    # Jaccard similarity: |A∩B| / |A∪B|
+    return len(intersection) / len(union)
+
 
 
 def length_score(text: str, min_words: int) -> float:
