@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Nirmaan AI – Interview Transcript Scorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Nirmaan AI – Interview Transcript Scorer</h1>
+      <p>Paste a candidate's interview transcript and get an automatic score based on the evaluation rubric.</p>
+    </header>
+
+    <main>
+      <section class="input-section">
+        <label for="transcript">Candidate Transcript</label>
+        <textarea id="transcript" placeholder="Interviewer: Tell me about yourself...&#10;Candidate: ..."></textarea>
+        <button id="score-btn">Score Transcript</button>
+        <p id="status" class="status"></p>
+      </section>
+
+      <section class="results-section">
+        <div id="overall-score" class="overall-score"></div>
+        <div id="criteria-results" class="criteria-results"></div>
+      </section>
+    </main>
+
+    <footer>
+      <small>Prototype for Nirmaan AI internship case study – built with FastAPI + vanilla JS.</small>
+    </footer>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
+ 

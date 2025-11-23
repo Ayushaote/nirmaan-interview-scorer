@@ -1,0 +1,109 @@
+{
+  "rubric_id": "nirmaan_self_intro_v2",
+  "rubric_name": "Self Introduction Evaluation Rubric",
+  "criteria": [
+    {
+      "id": "content_structure",
+      "name": "Content & Structure",
+      "description": "Measures whether the candidate includes salutation, name, age, school/class, background, hobbies, interests, a unique detail, goals, and closing. Checks logical introduction flow: Salutation → Name → Personal details → Additional points → Closing.",
+      "weight": 40,
+      "keywords": [
+        "hello", "hi", "good morning", "good afternoon", "my name is", "i am", "age",
+        "class", "school", "family", "hobbies", "interests", "goal", "dream",
+        "unique", "fun fact", "thank you", "closing"
+      ],
+      "subcriteria": {
+        "salutation_tiers": {
+          "no_salutation": 0,
+          "normal": ["hi", "hello"],
+          "good": ["good morning", "good afternoon"],
+          "excellent": ["feeling great", "excited to introduce myself"]
+        },
+        "required_info": [
+          "name", "age", "class", "school", "family",
+          "interest", "hobby", "goal", "unique fact"
+        ],
+        "flow_order": ["salutation", "intro", "details", "extras", "closing"]
+      },
+      "min_words": 80
+    },
+    {
+      "id": "speech_rate",
+      "name": "Speech Rate",
+      "description": "Evaluates speaking speed (words per minute). Ideal rate is 111–140 WPM, indicating clear pacing. Too fast or too slow reduces clarity.",
+      "weight": 10,
+      "keywords": ["speed", "pace", "WPM", "speech rate"],
+      "ranges": {
+        ">161": 2,
+        "141-160": 6,
+        "111-140": 10,
+        "81-110": 6,
+        "<80": 2
+      },
+      "min_words": 60
+    },
+    {
+      "id": "language_grammar",
+      "name": "Language & Grammar",
+      "description": "Evaluates correctness of grammar and richness of vocabulary. Uses grammar score and lexical diversity (TTR or MTLD).",
+      "weight": 20,
+      "keywords": [
+        "sentence", "grammar", "structure", "syntax",
+        "vocabulary", "writing", "error", "correct", "fluency"
+      ],
+      "subcriteria": {
+        "grammar_score_scale": {
+          ">0.9": 10,
+          "0.7-0.89": 8,
+          "0.5-0.69": 6,
+          "0.3-0.49": 4,
+          "<0.3": 2
+        },
+        "TTR_scale": {
+          "0.9-1.0": 10,
+          "0.7-0.89": 8,
+          "0.5-0.69": 6,
+          "0.3-0.49": 4,
+          "<0.3": 2
+        }
+      },
+      "min_words": 70
+    },
+    {
+      "id": "clarity",
+      "name": "Clarity",
+      "description": "Measures clarity by analyzing filler-word density. Fewer fillers indicate clearer and more confident speech.",
+      "weight": 15,
+      "keywords": [
+        "uh", "um", "like", "basically", "actually", "you know", "sort of",
+        "kinda", "okay", "hmm"
+      ],
+      "ranges": {
+        "0-3": 15,
+        "4-6": 12,
+        "7-9": 9,
+        "10-12": 6,
+        ">13": 3
+      },
+      "min_words": 50
+    },
+    {
+      "id": "engagement",
+      "name": "Engagement",
+      "description": "Evaluates emotional tone and positivity using sentiment analysis. High confidence, enthusiasm, and positive tone score high.",
+      "weight": 15,
+      "keywords": [
+        "happy", "excited", "love", "enjoy", "confident",
+        "enthusiastic", "fun", "proud", "grateful", "interested"
+      ],
+      "sentiment_scale": {
+        ">0.9": 15,
+        "0.7-0.89": 12,
+        "0.5-0.69": 9,
+        "0.3-0.49": 6,
+        "<0.3": 3
+      },
+      "min_words": 50
+    }
+  ]
+}
