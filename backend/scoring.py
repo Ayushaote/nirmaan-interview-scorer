@@ -1,21 +1,30 @@
 from typing import Dict, Any, List
 
 import json
+import numpy as np
+from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity
 
+
+_model = None
 _rubric_cache: Dict[str, Any] = {}
 
 
+def get_model():
+    global _model
+    if _model is None:
+        _model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+    return _model
+
+
 def load_rubric(path: str = "rubric_config.json") -> Dict[str, Any]:
-    """
-    Load rubric from JSON file with simple in-memory caching.
-    """
+    # Simple single-rubric loader for now
     global _rubric_cache
     if path in _rubric_cache:
         return _rubric_cache[path]
 
     with open(path, "r", encoding="utf-8") as f:
         rubric = json.load(f)
-
     _rubric_cache[path] = rubric
     return rubric
 
@@ -37,25 +46,16 @@ def keyword_score(text: str, keywords: List[str]) -> float:
 
 def semantic_score(text: str, description: str) -> float:
     """
-    Lightweight semantic-ish score using word overlap (no heavy ML model).
-    Uses Jaccard similarity between sets of words. Returns [0, 1].
+    Semantic similarity between transcript and criterion description. [0, 1]
     """
     if not description.strip():
         return 0.5  # neutral baseline
-
-    text_tokens = set(text.lower().split())
-    desc_tokens = set(description.lower().split())
-
-    if not text_tokens or not desc_tokens:
-        return 0.5
-
-    intersection = text_tokens.intersection(desc_tokens)
-    union = text_tokens.union(desc_tokens)
-
-    if not union:
-        return 0.5
-
-    return len(intersection) / len(union)
+    model = get_model()
+    embeddings = model.encode([text, description])
+    sim = cosine_similarity([embeddings[0]], [embeddings[1]])[0][0]
+    # Map from [-1,1] -> [0,1]
+    sim = (sim + 1) / 2
+    return float(sim)
 
 
 def length_score(text: str, min_words: int) -> float:
@@ -97,15 +97,17 @@ def score_transcript(transcript: str, rubric: Dict[str, Any]) -> Dict[str, Any]:
         s = semantic_score(transcript, desc)
         l = length_score(transcript, min_words)
 
-        # Tunable hyperparameters (keyword, semantic, length)
-        alpha, beta, gamma = 0.25, 0.55, 0.20
-
+        # Tunable hyperparameters
+        alpha, beta, gamma = 0.25, 0.55, 0.20   # keyword, semantic, length
+        
+        # Base weighted score
         combined = alpha * k + beta * s + gamma * l
-
-        # Mild non-linear scaling to reward strong answers a bit more
+        
+        # Optional non-linear smoothing: boosts strong responses & keeps weak answers low
         combined = 0.6 * combined + 0.4 * (combined ** 2)
 
         combined_100 = combined * 100.0
+
 
         criteria_results.append({
             "id": cid,
@@ -129,3 +131,4 @@ def score_transcript(transcript: str, rubric: Dict[str, Any]) -> Dict[str, Any]:
         "overall_score": round(overall, 2),
         "criteria_scores": criteria_results
     }
+ 
