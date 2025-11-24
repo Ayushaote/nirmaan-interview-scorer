@@ -149,6 +149,8 @@ To still demonstrate deployment skills, I built a Phase 2 version that uses the 
 
 - Frontend (Vercel):
 Deployed static UI adapted from the original frontend.
+[Vercel Frontend](https://nirmaan-interview-scorer-app.vercel.app/)
+Note: Backend deployment on Render is present but non-functional due to free-tier memory limits. Heavy dependencies (PyTorch, Sentence-Transformers) require running the backend locally.
 
 - Backend + UI (Hugging Face Space – Gradio):
 [HuggingFace](https://huggingface.co/spaces/vitamin-c/Nirmaan-internship-project)
