@@ -143,22 +143,36 @@ Vanilla HTML/CSS/JS frontend + FastAPI backend + transformer-based scoring.
 ---
 
 ## 4. Deployed Link (Phase 2 – Optional Demo)
-Because Phase 1 uses heavy libraries (PyTorch, SentenceTransformers), the backend could not reliably run on Render free tier (512 MB RAM). The frontend successfully deployed to Vercel, but the backend crashed during model loading.
+During Phase 1, the project was fully implemented with:
+  - Backend: main.py, scoring.py, rubric_config.json, and requirements.txt
+  - Frontend: Vanilla HTML, CSS, and JavaScript
 
-To still demonstrate deployment skills, I built a Phase 2 version that uses the same rubric but a lighter scoring approach and moved hosting to Hugging Face Spaces.
+This version successfully worked locally and represents the full scoring logic as originally intended.
+We attempted to deploy:
+  - Frontend → Vercel (successful)
+  - Backend → Render (unsuccessful due to memory limits)
 
-- Frontend (Vercel):
-Deployed static UI adapted from the original frontend.
-[Vercel Frontend](https://nirmaan-interview-scorer-app.vercel.app/)
-Note: Backend deployment on Render is present but non-functional due to free-tier memory limits. Heavy dependencies (PyTorch, Sentence-Transformers) require running the backend locally.
+The backend relies on large NLP dependencies such as PyTorch and Sentence-Transformers, which exceed the Render free-tier (512 MB RAM) capacity. As a result, the deployed backend cannot load the model and remains non-functional, while the UI continues to work.
 
-- Backend + UI (Hugging Face Space – Gradio):
-[HuggingFace](https://huggingface.co/spaces/vitamin-c/Nirmaan-internship-project)
+[Frontend](https://nirmaan-interview-scorer-app.vercel.app/)
 
-This Gradio-based version:
-- Uses a similar scoring pipeline (rule-based + semantic features).
-- Is optimized for CPU and tighter memory.
-- Serves as a public demo of the idea, while the local Phase 1 remains the more powerful model.
+Phase 2 – Hugging Face (Working Prototype + UI)
+To still provide a working cloud demonstration, we built a Phase 2 version using Gradio hosted on Hugging Face Spaces.
+This version:
+  - Reuses the same scoring.py and rubric_config.json
+  - Uses a lighter inference setup suitable for shared CPU environments
+  - Provides a fully functioning end-to-end scoring experience online
+
+[HuggingFace Space](https://huggingface.co/spaces/vitamin-c/Nirmaan-internship-project)
+
+```
+| Version     | Tech Stack                                                        | Deployment Status                                   | Purpose                                 |
+| ----------- | ----------------------------------------------------------------- | --------------------------------------------------- | --------------------------------------- |
+| **Phase 1** | Frontend (HTML/CSS/JS) + Backend (Python + Sentence Transformers) | Local only (backend too heavy for Render free tier) | **Primary full-featured solution**      |
+| **Phase 2** | Gradio + Python on Hugging Face                                   | Fully hosted and functional                         | **Public demonstration of the concept** |
+
+```
+We recommend first trying the hosted Hugging Face demo, and then (if interested in the full implementation), running Phase 1 locally to see the complete prototype scoring engine as originally developed.
 
 ---
 
