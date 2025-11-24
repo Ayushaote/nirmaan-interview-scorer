@@ -70,7 +70,7 @@ If folder names differ slightly in the repo, they will still follow this backend
 
 ### 3.2 Clone the Repository
 ```
-git clone https://github.com/YOUR-USERNAME/nirmaan-interview-scorer.git
+git clone https://github.com/Ayushaote/nirmaan-interview-scorer.git
 cd nirmaan-interview-scorer
 ```
 
