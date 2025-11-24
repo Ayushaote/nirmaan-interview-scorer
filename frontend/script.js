@@ -1,5 +1,6 @@
+// if running locally, please use const API_BASE_URL = "const API_BASE_URL = "http://localhost:8000";
+
 // Change this to your Render URL after deployment, e.g.
-// const API_BASE_URL = "https://nirmaan-api.onrender.com";
 const API_BASE_URL = "https://nirmaan-interview-scorer.onrender.com";
 
 const textarea = document.getElementById("transcript");
