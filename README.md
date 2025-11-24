@@ -62,6 +62,17 @@ If folder names differ slightly in the repo, they will still follow this backend
 
 ## 3. How to Run the App Locally (Phase 1 – Recommended)
 
+### ⚠️ Important: API Configuration for Local Testing
+To run Phase 1 locally, ensure the frontend points to the locally running FastAPI backend.
+Open frontend/script.js and update:
+```
+// Local backend (Phase 1)
+const API_BASE_URL = "http://127.0.0.1:8000";
+or
+const API_BASE_URL = "http://localhost:8000";
+```
+Do not use the Render backend URL, as it fails under the free tier due to heavy NLP dependencies (PyTorch + SentenceTransformers).
+
 ### 3.1 Prerequisites
 
 - Python 3.9+
@@ -155,6 +166,7 @@ We attempted to deploy:
 The backend relies on large NLP dependencies such as PyTorch and Sentence-Transformers, which exceed the Render free-tier (512 MB RAM) capacity. As a result, the deployed backend cannot load the model and remains non-functional, while the UI continues to work.
 
 [Frontend](https://nirmaan-interview-scorer-app.vercel.app/)
+NOTE: The deployed frontend is viewable online, but requires a locally running backend to generate scores.
 
 Phase 2 – Hugging Face (Working Prototype + UI)
 To still provide a working cloud demonstration, we built a Phase 2 version using Gradio hosted on Hugging Face Spaces.
